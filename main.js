@@ -40,7 +40,7 @@ function οrthPasCalc(E){
     month = "Απριλίου"; // and month is to April
     var iPas = iPas - 31;
   }
-  if (E > 2099){iPas++;} //corrects an error for dates bigger than 2099
+  if (E > 2099){iPas++;}else if(E < 2000){iPas++} //corrects an error for dates bigger than 2099
   var arr = []; //creates array and pushes the values inside of it, so they can be transfered to the HTML form
   arr.push(iPas);
   arr.push(month);
