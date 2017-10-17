@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Υπολογιστής Πάσχα</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    .background {
+        background: url("http://lincolncentershops.com/wp-content/uploads/2016/03/easter-eggs-coloring-pages.jpg");
+        background-repeat: no-repeat;
+        background-size: 100%;
+        width: 100%;
+        
+        
+    }
+    .card {
+        margin: 150px auto 150px auto;
+        width: 40vh;
+    }
+    
+    footer {
+        margin-top: 50vh;
+        background-color: #354458;
+        position: absolute;
+        bottom: 0;
+        width:100%;
+        text-align: center;
+        color: white;
+        
+    }
+
+    footer > p {
+        vertical-align: text-center;
+        margin:0px;
+    }
+    
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+            <div style="text-align: center" class="card bg-primary text-white align-center">
+                <div class="card-header">Υπολογιστής Πάσχα</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <input class="form-control"id="inputfield" type="text" placeholder="Έτος 2000-2100">
+                        <button style="margin-top: 10px" class="btn btn-light display-block btn-sm btn-block" onclick="start();">Υποβολή</button>
+                        <h5 id="orthodox">Oρθόδοξο πάσχα:</h5>
+                        <h5 id="catholic">Καθολικό πάσχα:</h5>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made with <i class="fa fa-heart" aria-hidden="true"></i> and <i class="fa fa-headphones" aria-hidden="true"></i> by Dimitris Zarachanis - 2017</p>
+    </footer>
+<script src="main.js"></script>
+</body>
+</html>
