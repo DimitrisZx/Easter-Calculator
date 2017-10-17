@@ -1,59 +1,92 @@
 
 
 
-function start(){
-  document.getElementById("orthodox").innerHTML = "Ορθόδοξο πάσχα:";
-  document.getElementById("catholic").innerHTML = "Καθολικό πάσχα:";
-  var pasxa = οrthPasCalc(parseInt(document.getElementById("inputfield").value));
-  var cathpasxa = cathPasCalc(parseInt(document.getElementById("inputfield").value));
-  console.log(pasxa);
-  document.getElementById("orthodox").innerHTML += " " + pasxa[0] + " " + pasxa[1] + ".";
-  document.getElementById("catholic").innerHTML += " " + cathpasxa[0] + " " + cathpasxa[1] + ".";
+function start(){ //Gets the year and returns the dates to the form
+  document.getElementById("orthodox").innerHTML = "Ορθόδοξο πάσχα:"; //Resets default Value
+  document.getElementById("catholic").innerHTML = "Καθολικό πάσχα:"; // ^
+  
+  var pasxa = οrthPasCalc(parseInt(document.getElementById("inputfield").value)); //Gets Date
+  var cathpasxa = cathPasCalc(parseInt(document.getElementById("inputfield").value)); //^
+  
+  document.getElementById("orthodox").innerHTML += " " + pasxa[0] + " " + pasxa[1] + "."; // Returns Date
+  document.getElementById("catholic").innerHTML += " " + cathpasxa[0] + " " + cathpasxa[1] + "."; //^
 }
 
 
 
 function οrthPasCalc(E){
 
-  
-  var a = E % 19; 
-  var T = (8 +11 * a) % 30; 
-  var month = "Μαρτίου";
-  var K = Math.floor((E / 100) - (E / 400) - 2);
+  var a = E % 19;//a = position of the year in the 19 year cycle (0-18)
+  var T = (8 +11 * a) % 30; // Julian Epact
+  var month = "Μαρτίου"; //Sets the month to March
+  var K = Math.floor((E / 100) - (E / 400) - 2);//Calculates K
 
-  var iPanArx = 21 + (53 - T) % 30;
+  var iPanArx = 21 + (53 - T) % 30;//Calculates the Julian Full-Moon
 
-  if (iPanArx > 31) {
+  if (iPanArx > 31) { //if the number is bigger the total of days in March, it is converted to respective day in April
     var iPanArxM = iPanArx - 31;
-    month = "Απριλίου";
+    month = "Απριλίου"; //and the month is set to April
   } else {
-    var iPanArxM = iPanArx;}
+    var iPanArxM = iPanArx;} //else it remains the same but it is assigned to another variable
 
-  var iPanTel = iPanArxM + K;
-  var Y = (E + Math.floor(E/4) + iPanArx) % 7;
-  var iPas = iPanTel + (7-Y);
+  var iPanTel = iPanArxM + K; //calculates the iPanTel, not sure what it is...
+  var Y = (E + Math.floor(E/4) + iPanArx) % 7; //calculates the position Y of iPanTel in the week days (0-Sunday,1-Monday κτλ)
+  var iPas = iPanTel + (7-Y); //calculates the Orthodox Easter date
 
-  if (iPas > 30 && month == "Απριλίου") {
-    month = "Μαΐου";
+  if (iPas > 30 && month == "Απριλίου") { //if number of April days > 30, they are converted to May days.
+    month = "Μαΐου"; // and month is set to May
     var iPas = iPas - 30;
-  } else if (iPas > 31 && month == "Μαρτίου"){
-    month = "Απριλίου";
+  } else if (iPas > 31 && month == "Μαρτίου"){ //else if number of March days > 31, they are converted to April days.
+    month = "Απριλίου"; // and month is to April
     var iPas = iPas - 31;
   }
-  console.log(iPas + " " + month + " " + E);
-  if (E > 2099){iPas++;}
-  var arr = [];
+  if (E > 2099){iPas++;} //corrects an error for dates bigger than 2099
+  var arr = []; //creates array and pushes the values inside of it, so they can be transfered to the HTML form
   arr.push(iPas);
   arr.push(month);
-  console.log(arr);
   return arr;
   }
   
   
 
-  /* 
-Debugging Tools ~ 
----------------------
+  
+function cathPasCalc(E){
+  
+  var a = E % 19; //a = position of the year in the 19 year cycle (0-18)
+  var Τ = (8 +11 * a) % 30;  // calculates the Epact
+  var month = "Μαρτίου"; //Sets the month to March
+  var Κ = Math.floor((E / 100) - (E / 400) - 2); //calculates K
+  var θ = Math.floor(((E-1400)/100)*8/25)+3;// calculates θ - lunar correction
+  
+  // ---- Γρηγοριανή Επακτή ---- //Calculates the Gregorian Epact
+  var ΓΕ1 = Τ + θ - Κ;
+  
+  function mod(n) {
+      var ΓΕ2 = ((n % 30) + 30) % 30;
+      return ΓΕ2;
+  };
+  var ΓΕ = mod(ΓΕ1);
+  if((ΓΕ == 24 || ΓΕ == 25) && a > 11){ΓΕ = ΓΕ++;}
+  // ---- Γρηγοριανή Επακτή ----
+  
+  var gPan = 21 + (53 - ΓΕ) % 30; //Calculate the Gregorian Full-Moon
+  
+  if (gPan => 31) { //if March days > 31, they converted to April days
+    var gPanM = gPan - 31;
+    month = "Απριλίου"; //and month is set to April
+  } else {
+    var gPanM = gPan;} //else it assigned as itself on the new variable
+  
+    var Y = (E + Math.floor(E/4) - Math.floor(E/100) + Math.floor(E/400) + gPan - 26) % 7; //calculates Y
+    var gPas = gPanM + (7-Y); //calculates Catholic Easter dat
+
+    var arr1 = []; //creates array and pushes the values inside of it, so they can be transfered to the HTML form
+    arr1.push(gPas, month);
+    return arr1;
+}
+/* 
+Debugging Tools - Οrthodox ~ 
+----------------------------
 console.log("Κ: "+ K);
 console.log("Έτος " + E);
 console.log("α: "+a);
@@ -65,43 +98,11 @@ console.log("iPanArxM: " + iPanArxM);
 console.log("iPanTel: " + iPanTel);
 console.log("Πάσχα: " + iPas + " " + month);
 */
-function cathPasCalc(E){
-  
-  var a = E % 19; 
-  var Τ = (8 +11 * a) % 30; 
-  var month = "Μαρτίου";
-  var Κ = Math.floor((E / 100) - (E / 400) - 2);
-  var θ = Math.floor(((E-1400)/100)*8/25)+3;
-  
-  // ---- Γρηγοριανή Επακτή ----
-  var ΓΕ1 = Τ + θ - Κ;
-  
-  function mod(n) {
-      var ΓΕ2 = ((n % 30) + 30) % 30;
-      console.log("ΓΕ " + ΓΕ2);
-      return ΓΕ2;
-  };
-  var ΓΕ = mod(ΓΕ1);
-  if((ΓΕ == 24 || ΓΕ == 25) && a > 11){ΓΕ = ΓΕ++;}
-  // ---- Γρηγοριανή Επακτή ----
-  
-  var gPan = 21 + (53 - ΓΕ) % 30;
-  
-  if (gPan => 31) {
-    var gPanM = gPan - 31;
-    month = "Απριλίου";
-  } else {
-    var gPanM = gPan;}
-  
-    var Y = (E + Math.floor(E/4) - Math.floor(E/100) + Math.floor(E/400) + gPan - 26) % 7;
-    var gPas = gPanM + (7-Y);
 
-    var arr1 = [];
-    arr1.push(gPas, month);
-    console.log(arr1);
-    
-    
 
+  /*    
+Debugging Tools - Catholic~
+---------------------------
     console.log(E);
     console.log("α: " + a);
     console.log("Τ: " + Τ);
@@ -114,30 +115,4 @@ function cathPasCalc(E){
     console.log("gPan: " + gPan);
     console.log("gPanM: " + gPanM);
     console.log("gPas: " + gPas);
-    console.log("------------");
-    return arr1;
-}
-
-cathPasCalc(2016);
-cathPasCalc(2017);
-cathPasCalc(2018);
-/*
-  var iPanTel = iPanArxM + K;
-  var Y = (E + Math.floor(E/4) + iPanArx) % 7;
-  var iPas = iPanTel + (7-Y);
-
-  if (iPas > 30 && month == "Απριλίου") {
-    month = "Μαΐου";
-    var iPas = iPas - 30;
-  } else if (iPas > 31 && month == "Μαρτίου"){
-    month = "Απριλίου";
-    var iPas = iPas - 31;
-  }
-  console.log(iPas + " " + month + " " + E);
-  if (E > 2099){iPas++;}
-  var arr = [];
-  arr.push(iPas);
-  arr.push(month);
-  console.log(arr);
-  return arr; */
-  
+    console.log("------------");*/
