@@ -1,9 +1,6 @@
-
-
-
 function start(){ //Gets the year and returns the dates to the form
-  document.getElementById("orthodox").innerHTML = "Ορθόδοξο πάσχα:"; //Resets default Value
-  document.getElementById("catholic").innerHTML = "Καθολικό πάσχα:"; // ^
+  document.getElementById("orthodox").innerHTML = "Ορθόδοξο Πάσχα:"; //Resets default Value
+  document.getElementById("catholic").innerHTML = "Καθολικό Πάσχα:"; // ^
   
   var pasxa = οrthPasCalc(parseInt(document.getElementById("inputfield").value)); //Gets Date
   var cathpasxa = cathPasCalc(parseInt(document.getElementById("inputfield").value)); //^
