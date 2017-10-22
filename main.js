@@ -45,7 +45,8 @@ function οrthPasCalc(E){
   arr.push(iPas);
   arr.push(month);
   return arr;
-  console.log(iPas + month);
+  
+
 }
   
   
@@ -58,9 +59,11 @@ function cathPasCalc(E){
   var month = "Μαρτίου"; //Sets the month to March
   var Κ = Math.floor((E / 100) - (E / 400) - 2); //calculates K
   var v = [E/100];
-  var θ = Math.floor((8*v+13)/25) - 2; 
-  
-  //var θ = Math.floor(((E-1400)/100)*8/25)+3;// calculates θ - lunar correction
+  if (E >= 1800 && E <= 2099){
+    var θ = 4;
+  } else if (E > 2099){
+    var θ = 5;
+  }
   
   // ---- Γρηγοριανή Επακτή ---- //Calculates the Gregorian Epact
   var ΓΕ1 = Τ + θ - Κ;
@@ -70,43 +73,32 @@ function cathPasCalc(E){
       return ΓΕ2;
   };
   var ΓΕ = mod(ΓΕ1);
-  if(ΓΕ == 24 || (ΓΕ == 25 && a > 11)){ΓΕ = ΓΕ++;}
+  if((ΓΕ == 24 || ΓΕ == 25) && a > 11){ΓΕ = ΓΕ++;}
   // ---- Γρηγοριανή Επακτή ----
   
   var gPan = 21 + (53 - ΓΕ) % 30; //Calculate the Gregorian Full-Moon
   
-  if (gPan >= 31) { //if March days > 31, they are converted to April days
+  if (gPan > 31) { //if March days > 31, they are converted to April days
     var gPanM = gPan - 31;
     month = "Απριλίου"; //and month is set to April
   } else {
-    var gPanM = gPan;} //else it is assigned as itself on the new variable
-  
-    var Y = Math.floor(E + (E/4) - (E/100) + (E/400) + gPan - 26) % 7; //calculates Y
+    var gPanM = gPan;
+  } //else it is assigned as itself on the new variable
+    //console.log("gPan: " + gPan);
+    
+    var Y = (E + Math.floor(E/4) - Math.floor(E/100) + Math.floor(E/400) + gPan - 26) % 7; //calculates Y
     var gPas = gPanM + (7-Y); //calculates Catholic Easter date
+
+    if (gPas > 31 && month == "Μαρτίου"){
+      month = "Απριλίου";
+      gPas = gPas - 31;
+    }
 
     var arr1 = []; //creates array and pushes the values inside of it, so they can be transfered to the HTML form
     arr1.push(gPas, month);
     return arr1;
-    console.log(gPas + month);
+    
 }
-
-for (var i = 2015; i < 2515; i = i + 10){
-  console.log(cathPasCalc(i) + i + " Καθ");
-  console.log(οrthPasCalc(i) + i + " Ορθ");
-  console.log("------------");
-}
-
-
-
-
-
-
-
-
-
-
-
-
 /* 
 Debugging Tools - Οrthodox ~ 
 ----------------------------
@@ -120,10 +112,7 @@ console.log("iPanArx: " + iPanArx);
 console.log("iPanArxM: " + iPanArxM);
 console.log("iPanTel: " + iPanTel);
 console.log("Πάσχα: " + iPas + " " + month);
-*/
-
-
-  /*    
+   
 Debugging Tools - Catholic~
 ---------------------------
     console.log(E);
@@ -138,4 +127,14 @@ Debugging Tools - Catholic~
     console.log("gPan: " + gPan);
     console.log("gPanM: " + gPanM);
     console.log("gPas: " + gPas);
-    console.log("------------");*/
+    console.log("------------");
+    
+Testing Loop ~
+--------------------------
+for (var i = 2000; i <= 2060; i = i + 1){
+  console.log(cathPasCalc(i) + i + " Καθ");
+  console.log(οrthPasCalc(i) + i + " Ορθ");
+  console.log("------------");
+}
+*/
+

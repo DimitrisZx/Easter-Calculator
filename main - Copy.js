@@ -71,7 +71,7 @@ function cathPasCalc(E){
   
   var gPan = 21 + (53 - ΓΕ) % 30; //Calculate the Gregorian Full-Moon
   
-  if (gPan => 31) { //if March days > 31, they converted to April days
+  if (gPan > 31) { //if March days > 31, they converted to April days
     var gPanM = gPan - 31;
     month = "Απριλίου"; //and month is set to April
   } else {
